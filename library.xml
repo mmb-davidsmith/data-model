@@ -262,7 +262,8 @@ applicable to this document can be found in the LICENSE.md file.
       <type:length value="16" />
     </restriction>
   </type:type>
-  <!-- Opaque (not defined since there is no ID -->
+  <!-- Opaque -->
+  <type:type id="ff" short="opaque" name="Qpaque" />
   <!-- Unknown -->
   <type:type id="ff" short="unk" name="Unknown" />
 
@@ -325,6 +326,7 @@ applicable to this document can be found in the LICENSE.md file.
       <type:enumeration name="EUI64" value="f0" />
       <type:enumeration name="key128" value="f1" />
       <type:enumeration name="unk" value="ff" />
+      <type:enumeration name="opaque" value="ff"/>
     </restriction>
   </type:type>
   
@@ -476,6 +478,8 @@ applicable to this document can be found in the LICENSE.md file.
   <xi:include href="MeterIdentification.xml" parse="xml" />
   <xi:include href="OTAUpgrade.xml" parse="xml" />
   <xi:include href="ConcentrationMeasurement.xml" parse="xml"/>
+  
+  <xi:include href="KeyEstablishment.xml" parse="xml" />
   
   <xi:include href="EN50523ApplianceEventsAndAlerts.xml" parse="xml" />
   <xi:include href="EN50523ApplianceStatistics.xml" parse="xml" />

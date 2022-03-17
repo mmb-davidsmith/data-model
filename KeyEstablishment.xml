@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!-- 
+Zigbee Alliance owns the copyright to the text and content displayed or 
+included in this document (including in PDF, XML files and other formats) in 
+all forms of media, which copyright is protected by the copyright laws of the 
+United States and by international treaties.  Full text of licensing terms 
+applicable to this document can be found in the LICENSE.md file.
+-->
+<zcl:cluster xmlns:zcl="http://zigbee.org/zcl/clusters"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:type="http://zigbee.org/zcl/types"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xsi:schemaLocation="http://zigbee.org/zcl/clusters cluster.xsd http://zigbee.org/zcl/types type.xsd"
+  id="0800" revision="2" name="KeyEstablishment">
+  <classification role="application" picsCode="SEKE" />
+  
+  <type:type short="SEKEKeyEstablishmentSuite" name="SEKEKeyEstablishmentSuite" id="31" inheritsFrom="enum16" discrete="true">
+    <bitmap>
+      <element mask="0001" shiftRight="0" name="CryptoSuite1" type="bool" />
+      <element mask="0002" shiftRight="1" name="CryptoSuite2" type="bool" />
+    </bitmap>
+  </type:type>
+  
+  <type:type short="SEKEStatusCode" name="SEKEStatusCode" id="30" inheritsFrom="enum8" discrete="true">
+    <restriction>
+      <type:enumeration name="UNKNOWN_ISSUER" value="01"/>
+      <type:enumeration name="BAD_KEY_CONFIRM" value="02"/>
+      <type:enumeration name="BAD_MESSAGE" value="03"/>
+      <type:enumeration name="NO_RESOURCES" value="04"/>
+      <type:enumeration name="UNSUPPORTED_SUITE" value="05"/>
+      <type:enumeration name="INVALID_CERTIFICATE" value="06"/>
+    </restriction>  
+  </type:type>
+  
+  <server>
+    <attributes>
+      <attribute id="0000" name="ServerKeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" required="true" default="0" />
+    </attributes>
+    <commands>
+      <command id="00" name="InitiateKeyEstablishmentRequest" required="true">
+        <fields>
+          <field name="KeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" />
+          <field name="EphemeralDataGenerateTime" type="uint8" />
+          <field name="ConfirmKeyGenerateTime" type="uint8" />
+          <field name="Identity" type="opaque" />
+        </fields>
+      </command>
+      <command id="01" name="EphemeralDataRequest" required="true">
+        <fields>
+          <field name="EphemeralData" type="opaque" />
+        </fields>
+      </command>
+      <command id="02" name="ConfirmKeyDataRequest" required="true">
+        <fields>
+          <field name="SecureMessageAuthenticationCode" type="opaque">
+            <restriction>
+              <type:length value="16"/>
+            </restriction>
+          </field>
+        </fields>
+      </command>
+      <command id="03" name="TerminateKeyEstablishment" required="true">
+        <fields>
+          <field name="StatusCode" type="SEKEStatusCode" />
+          <field name="WaitTime" type="uint8" />
+          <field name="KeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" />
+        </fields>
+      </command>
+    </commands>
+  </server>
+  
+  <client>
+    <attributes>
+      <attribute id="0000" name="ClientKeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" required="true" default="0" />
+    </attributes>
+    <commands>
+      <command id="00" name="InitiateKeyEstablishmentResponse" required="true">
+        <fields>
+          <field name="RequestedKeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" />
+          <field name="EphemeralDataGenerateTime" type="uint8" />
+          <field name="ConfirmKeyGenerateTime" type="uint8" />
+          <field name="Identity" type="opaque" />
+        </fields>
+      </command>
+      <command id="01" name="EphemeralDataResponse" required="true">
+        <fields>
+          <field name="EphemeralData" type="opaque" />
+        </fields>
+      </command>
+      <command id="02" name="ConfirmKeyDataResponse" required="true">
+        <fields>
+          <field name="SecureMessageAuthenticationCode" type="opaque">
+            <restriction>
+              <type:length value="16"/>
+            </restriction>          
+          </field>
+        </fields>      
+      </command>
+      <command id="03" name="TerminateKeyEstablishment" required="true">
+        <fields>
+          <field name="StatusCode" type="SEKEStatusCode" />
+          <field name="WaitTime" type="uint8" />
+          <field name="KeyEstablishmentSuite" type="SEKEKeyEstablishmentSuite" />
+        </fields>
+      </command>
+    </commands>
+  </client>
+</zcl:cluster>
